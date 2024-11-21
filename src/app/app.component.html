@@ -18,19 +18,62 @@
       <label for="">Pais:</label>
       <select name="pais" id="pais" formControlName="pais" class="form-select">
         <option *ngFor="let item of paises" [ngValue]="item">{{ item.nombre }}</option>
-      </select>      
+      </select>
     </div>
     <div class="form-group">
       <label for="">Estado o Región:</label>
       <select name="estado" id="estado" formControlName="estado" class="form-select">
         <option *ngFor="let item of estados" [ngValue]="item">{{ item.nombre }}</option>
-      </select>      
+      </select>
     </div>
     <div class="mt-2">
-      <button type="submit" class="btn btn-primary">Guardar</button>
+      <button type="submit" class="btn btn-primary" [disabled]="personaForm.invalid">Guardar</button>
     </div>
   </form>
 </div>
 
+<div class="container-fluid p-4">
+  <h2>Personas registradas</h2>
+  <div class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead class="text-center">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Pais</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tfoot class="text-center">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Edad</th>
+          <th>Pais</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </tfoot>
+      <tbody class="text-center">
+        <tr *ngFor="let item of personas">
+          <td>{{item.id}}</td>
+          <td>{{item.nombre}}</td>
+          <td>{{item.apellido}}</td>
+          <td>{{item.edad}}</td>
+          <td>{{item.pais.nombre}}</td>
+          <td>{{item.estado.nombre}}</td>
+          <td>
+            <button type="" class="btn btn-warning">Editar</button>
+            <button type="" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <router-outlet><router-outlet/>

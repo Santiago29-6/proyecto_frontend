@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -12,13 +12,18 @@ export class PersonaService {
   constructor(
     private httpClient : HttpClient
   ) { }
-  
+
   public getAllPersona(): Observable<any>{
     return this.httpClient.get(this.API_SERVER);
   }
 
   public savePersona (persona:any) : Observable<any>{
-    return this.httpClient.post(this.API_SERVER,persona);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post(this.API_SERVER,persona, {headers});
+  }
+
+  public deletePersona(id:any) : Observable<any>{
+    return this.httpClient.delete(this.API_SERVER + "delete/" + id )
   }
 
 }
