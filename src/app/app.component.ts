@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { EstadosService } from './services/estados/estados.service';
@@ -23,21 +23,22 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
 
   personaForm!: FormGroup;
-  paises : any;
-  estados : any;
-  personas : any;
+  paises: any;
+  estados: any;
+  personas: any;
 
   constructor(
-    public fb : FormBuilder,
+    public fb: FormBuilder,
     public estadosService: EstadosService,
-    public paisesService : PaisesService,
-    public personaService : PersonaService
-  ){
+    public paisesService: PaisesService,
+    public personaService: PersonaService
+  ) {
 
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.personaForm = this.fb.group({
+      id: [''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       edad: ['', Validators.required],
@@ -53,35 +54,61 @@ export class AppComponent {
     });
 
     this.personaService.getAllPersona()
-    .subscribe({
-      next: (resp) =>{
-        this.personas = resp;
-      },
-      error: (error) => console.error('Error al cargar las personas: ', error),
-    });
+      .subscribe({
+        next: (resp) => {
+          this.personas = resp;
+        },
+        error: (error) => console.error('Error al cargar las personas: ', error),
+      });
 
-    this.personaForm.get('pais')?.valueChanges.subscribe(value =>{
-      this.estadosService.getAllEstadosByPais(value.id).subscribe(resp =>{
-        this.estados = resp
-      },
-      error => { console.error('Error al cargar los estados por id: ' + error); }
-    );
+    this.personaForm.get('pais')?.valueChanges.subscribe(value => {
+      this.estadosService.getAllEstadosByPais(value.id)
+        .subscribe({
+          next: (resp) => {
+            this.estados = resp
+          },
+          error: (error) => console.error('Error al cargar los estados por id: ' + error)
+        });
     });
 
   }
 
-  guardar(): void{
+  guardar(): void {
     this.personaService.savePersona(this.personaForm.value)
-    .subscribe({
-      next: (resp) => {
-        this.personaForm.reset();
-        this.personas.push(resp);
-      },
-      error: (error) => {
-        console.error('Error al guardar la persona:', error);
-      }
-    });
+      .subscribe({
+        next: (resp) => {
+          this.personaForm.reset();
+          this.personas = this.personas.filter((persona: { id: any; }) => resp.id !== persona.id);
+          this.personas.push(resp);
+        },
+        error: (error) => {
+          console.error('Error al guardar la persona:', error);
+        }
+      });
   }
 
-  
+  eliminar(persona: any) {
+    this.personaService.deletePersona(persona.id)
+      .subscribe({
+        next: (resp) => {
+          if (resp === true) {
+            this.personas.pop(persona);
+          }
+        },
+        error: (error) => {
+          console.error('Error al eliminar persona: ', error);
+        }
+      });
+  }
+
+  editar(persona: any) {
+    this.personaForm.patchValue({
+      id: persona.id,
+      nombre: persona.nombre,
+      apellido: persona.apellido,
+      edad: persona.edad,
+      pais: persona.pais,
+      estado: persona.estado,
+    });
+  }
 }
