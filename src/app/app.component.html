@@ -67,8 +67,8 @@
           <td>{{item.pais.nombre}}</td>
           <td>{{item.estado.nombre}}</td>
           <td>
-            <button type="" class="btn btn-warning">Editar</button>
-            <button type="" class="btn btn-danger">Eliminar</button>
+            <button type="button" class="btn btn-warning" (click)="editar(item)">Editar</button>
+            <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
           </td>
         </tr>
       </tbody>
