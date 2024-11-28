@@ -1,74 +1,76 @@
-
-<div class="container-fluid p-5">
-  <h2>Crear persona</h2>
+<div class="container py-5">
+  <h2 class="text-center mb-4">Crear Persona</h2>
   <form [formGroup]="personaForm" (ngSubmit)="guardar()">
-    <div class="form-group">
-      <label for="">Nombre:</label>
-      <input type="text" formControlName="nombre" class="form-control">
+    <div class="row g-3">
+      <!-- Nombre -->
+      <div class="col-md-6">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Ingresa el nombre">
+      </div>
+      <!-- Apellido -->
+      <div class="col-md-6">
+        <label for="apellido" class="form-label">Apellido:</label>
+        <input type="text" id="apellido" formControlName="apellido" class="form-control" placeholder="Ingresa el apellido">
+      </div>
+      <!-- Edad -->
+      <div class="col-md-4">
+        <label for="edad" class="form-label">Edad:</label>
+        <input type="number" id="edad" formControlName="edad" class="form-control" placeholder="Ingresa la edad">
+      </div>
+      <!-- País -->
+      <div class="col-md-4">
+        <label for="pais" class="form-label">País:</label>
+        <select id="pais" formControlName="pais" class="form-select">
+          <option *ngFor="let item of paises" [ngValue]="item">{{ item.nombre }}</option>
+        </select>
+      </div>
+      <!-- Estado -->
+      <div class="col-md-4">
+        <label for="estado" class="form-label">Estado o Región:</label>
+        <select id="estado" formControlName="estado" class="form-select">
+          <option *ngFor="let item of estados" [ngValue]="item">{{ item.nombre }}</option>
+        </select>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="">Apellido:</label>
-      <input type="text" formControlName="apellido" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="">Edad:</label>
-      <input type="number" formControlName="edad" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="">Pais:</label>
-      <select name="pais" id="pais" formControlName="pais" class="form-select">
-        <option *ngFor="let item of paises" [ngValue]="item">{{ item.nombre }}</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="">Estado o Región:</label>
-      <select name="estado" id="estado" formControlName="estado" class="form-select">
-        <option *ngFor="let item of estados" [ngValue]="item">{{ item.nombre }}</option>
-      </select>
-    </div>
-    <div class="mt-2">
-      <button type="submit" class="btn btn-primary" [disabled]="personaForm.invalid">Guardar</button>
+    <!-- Botón Guardar -->
+    <div class="text-end mt-4">
+      <button type="submit" class="btn btn-primary px-4" [disabled]="personaForm.invalid">Guardar</button>
     </div>
   </form>
 </div>
 
-<div class="container-fluid p-4">
-  <h2>Personas registradas</h2>
+<!-- Redirección a Iniciar Sesión -->
+<div class="text-center mt-3">
+  <a routerLink="/login" class="btn btn-link">Iniciar Sesión</a>
+</div>
+
+<!-- Tabla de Personas -->
+<div class="container py-5">
+  <h2 class="text-center mb-4">Personas Registradas</h2>
   <div class="table-responsive">
     <table class="table table-hover table-striped">
-      <thead class="text-center">
+      <thead class="table-dark text-center">
         <tr>
           <th>ID</th>
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Edad</th>
-          <th>Pais</th>
+          <th>País</th>
           <th>Estado</th>
           <th>Opciones</th>
         </tr>
       </thead>
-      <tfoot class="text-center">
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Edad</th>
-          <th>Pais</th>
-          <th>Estado</th>
-          <th>Opciones</th>
-        </tr>
-      </tfoot>
       <tbody class="text-center">
         <tr *ngFor="let item of personas">
-          <td>{{item.id}}</td>
-          <td>{{item.nombre}}</td>
-          <td>{{item.apellido}}</td>
-          <td>{{item.edad}}</td>
-          <td>{{item.pais.nombre}}</td>
-          <td>{{item.estado.nombre}}</td>
+          <td>{{ item.id }}</td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.apellido }}</td>
+          <td>{{ item.edad }}</td>
+          <td>{{ item.pais.nombre }}</td>
+          <td>{{ item.estado.nombre }}</td>
           <td>
-            <button type="button" class="btn btn-warning" (click)="editar(item)">Editar</button>
-            <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
+            <button type="button" class="btn btn-warning btn-sm me-2" (click)="editar(item)">Editar</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(item)">Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -76,4 +78,4 @@
   </div>
 </div>
 
-<router-outlet><router-outlet/>
+<router-outlet></router-outlet>
