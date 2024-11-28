@@ -18,12 +18,20 @@ export class PersonaService {
   }
 
   public savePersona (persona:any) : Observable<any>{
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = this.createAuthHeaders();    
     return this.httpClient.post(this.API_SERVER,persona, {headers});
   }
 
   public deletePersona(id:any) : Observable<any>{
-    return this.httpClient.delete(this.API_SERVER + "delete/" + id )
+    const headers = this.createAuthHeaders();
+    return this.httpClient.delete(this.API_SERVER + "delete/" + id ,{headers})
   }
 
+  private createAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken'); // Obtén el token del almacenamiento local
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}` // Añade el token como encabezado Authorization
+    });
+  }
 }

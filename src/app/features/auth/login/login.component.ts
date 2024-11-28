@@ -12,7 +12,6 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
