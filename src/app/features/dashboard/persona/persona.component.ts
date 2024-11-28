@@ -37,6 +37,7 @@ export class PersonaComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
     if (!localStorage.getItem('authToken')) {
       this.router.navigate(['/login']);
     }

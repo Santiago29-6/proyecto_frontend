@@ -1,11 +1,8 @@
-<!-- app.component.html -->
 <div class="app-container">
-  <!-- Navbar y Footer visibles en todas las páginas excepto login -->
   <app-nav *ngIf="authService.isAuthenticated()"></app-nav>
 
-  <router-outlet></router-outlet> <!-- Aquí se cargan las vistas según la ruta -->
+  <router-outlet></router-outlet>
 
-  <!-- Footer -->
   <app-footer *ngIf="authService.isAuthenticated()"></app-footer>
 </div>
 
