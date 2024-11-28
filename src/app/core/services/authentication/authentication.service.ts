@@ -9,6 +9,7 @@ import { AuthResponse } from '../../../shared/models/authResponse.model';
   providedIn: 'root'
 })
 export class AuthenticationService {
+  private isLoggedIn = false;
 
   private apiUrl = 'http://localhost:8080/authentication';
 
@@ -21,4 +22,19 @@ export class AuthenticationService {
   public singUp(user : User) : Observable<User> {
     return this.httpClient.post<User>(`${this.apiUrl}/sign-up`, user);
   }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('authToken'); // Verifica si existe el token
+  }
+
+  login(token: AuthResponse): void {
+    localStorage.setItem('authToken', token.token); // Guarda el token al iniciar sesión
+    this.isLoggedIn = true;
+  }
+
+  logout(): void {
+    localStorage.removeItem('authToken'); // Elimina el token al cerrar sesión
+    this.isLoggedIn = false;
+  }
+
 }
