@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { EstadosService } from './services/estados/estados.service';
-import { PaisesService } from './services/paises/paises.service';
-import { PersonaService } from './services/persona/persona.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { EstadosService } from './core/services/estados/estados.service';
+import { PaisesService } from './core/services/paises/paises.service';
+import { PersonaService } from './core/services/persona/persona.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   personaForm!: FormGroup;
   paises: any;
