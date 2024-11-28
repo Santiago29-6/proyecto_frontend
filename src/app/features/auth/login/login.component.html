@@ -6,13 +6,13 @@
         <!-- Usuario -->
         <div class="mb-3">
           <label for="username" class="form-label">Usuario</label>
-          <input 
-            id="username" 
-            type="text" 
-            class="form-control" 
-            formControlName="username" 
+          <input
+            id="username"
+            type="text"
+            class="form-control"
+            formControlName="username"
             placeholder="Ingresa tu usuario"
-            [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" 
+            [class.is-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
           />
           <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="invalid-feedback">
             El nombre de usuario es obligatorio.
@@ -22,11 +22,11 @@
         <!-- Contraseña -->
         <div class="mb-3">
           <label for="password" class="form-label">Contraseña</label>
-          <input 
-            id="password" 
-            type="password" 
-            class="form-control" 
-            formControlName="password" 
+          <input
+            id="password"
+            type="password"
+            class="form-control"
+            formControlName="password"
             placeholder="Ingresa tu contraseña"
             [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
           />
@@ -37,9 +37,9 @@
 
         <!-- Botón -->
         <div class="d-grid">
-          <button 
-            type="submit" 
-            class="btn btn-primary" 
+          <button
+            type="submit"
+            class="btn btn-primary"
             [disabled]="loginForm.invalid">
             Iniciar Sesión
           </button>
@@ -48,4 +48,3 @@
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>

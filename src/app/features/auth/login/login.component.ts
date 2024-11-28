@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { AuthRequest } from '../../../shared/models/authRequest.model';
 import { AuthResponse } from '../../../shared/models/authResponse.model';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit{
 
   constructor(
     public fb: FormBuilder,
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    public router: Router
   ){ }
 
   ngOnInit():void{
@@ -43,8 +44,9 @@ export class LoginComponent implements OnInit{
       .subscribe({
         next: (resp) => {
           this.authRes = resp;
-          localStorage.setItem('authToken', this.authRes.token);
+          this.authService.login(this.authRes);
           console.log(this.authRes);
+          this.router.navigate(['/personas']);
         },
         error: (error) => {
           console.error("No se puedo hacer el logueo por: ", error);
