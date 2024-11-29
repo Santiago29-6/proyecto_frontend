@@ -1,8 +1,22 @@
-<div class="app-container">
-  <app-nav *ngIf="authService.isAuthenticated()"></app-nav>
+<div class="container-fluid d-flex flex-column vh-100">
+  <!-- Header -->
+  <header>
+    <app-header *ngIf="authService.isAuthenticated()"></app-header>
+  </header>
 
-  <router-outlet></router-outlet>
+  <!-- Main Content: Sidebar + Main Section -->
+  <div class="row flex-grow-1">
+    <!-- Sidebar -->
+    <div class="col-12 col-md-3 col-lg-2">
+      <app-slidebars *ngIf="authService.isAuthenticated()"></app-slidebars>
+    </div>
 
+    <!-- Content -->
+    <div class="col-12 col-md-9 col-lg-10 text-center">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
   <app-footer *ngIf="authService.isAuthenticated()"></app-footer>
 </div>
 

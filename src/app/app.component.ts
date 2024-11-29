@@ -2,8 +2,9 @@ import { AuthenticationService } from './core/services/authentication/authentica
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './shared/components/footer/footer.component';
-import { NavComponent } from './shared/components/nav/nav.component';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { SlidebarsComponent } from './shared/components/slidebars/slidebars.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     RouterOutlet,
     FooterComponent,
-    NavComponent,
+    HeaderComponent,
+    SlidebarsComponent,
     CommonModule
   ],
   templateUrl: './app.component.html',

@@ -8,10 +8,10 @@ import { User } from '../../../shared/models/user.model';
 })
 export class UsersService {
 
-  private API_SERVER = "http://localhost:8080/user";
+  private readonly API_SERVER = "http://localhost:8080/user";
 
   constructor(
-    private httpClient : HttpClient
+    private readonly httpClient : HttpClient
   ) { }
 
   public changeRole(role: any) : Observable<any>{

@@ -6,6 +6,10 @@ import { PersonaService } from '../../../core/services/persona/persona.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { Pais } from '../../../shared/models/pais.model';
+import { Estado } from '../../../shared/models/estado.model';
+import { Persona } from '../../../shared/models/persona.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-persona',
@@ -17,14 +21,14 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   templateUrl: './persona.component.html',
-  styleUrl: './persona.component.css'
+  styleUrls: ['./persona.component.css']
 })
-export class PersonaComponent implements OnInit{
+export class PersonaComponent implements OnInit {
 
-  personaForm!: FormGroup;
-  paises: any;
-  estados: any;
-  personas: any;
+  personaForm !: FormGroup;
+  paises !: Pais[];
+  estados !: Estado[];
+  personas !: Persona[];
 
   constructor(
     public fb: FormBuilder,
@@ -41,41 +45,43 @@ export class PersonaComponent implements OnInit{
     if (!localStorage.getItem('authToken')) {
       this.router.navigate(['/login']);
     }
+    this.initForm();
 
+    forkJoin({
+      paises: this.paisesService.getAllPaises(),
+      personas : this.personaService.getAllPersona()
+    }).subscribe({
+      next: ({ paises, personas }) => {
+        this.paises = paises;
+        this.personas = personas;
+      },
+      error: (error) => console.error('Error al cargar datos iniciales:', error),
+    });
+
+    this.personaForm.get('pais')?.valueChanges.subscribe(value => {
+      if (value) {
+        this.cargarEstadosPorPais(value.id);
+      }
+    });
+
+  }
+
+  private initForm(): void {
     this.personaForm = this.fb.group({
       id: [''],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      edad: ['', Validators.required],
+      edad: ['', [Validators.required, Validators.min(0), Validators.max(120)]],
       pais: ['', Validators.required],
       estado: ['', Validators.required]
-    })
-
-    this.paisesService.getAllPaises().subscribe({
-      next: (resp) => {
-        this.paises = resp;
-      },
-      error: (error) => console.error('Error al cargar países:', error),
     });
+  }
 
-    this.personaService.getAllPersona()
-      .subscribe({
-        next: (resp) => {
-          this.personas = resp;
-        },
-        error: (error) => console.error('Error al cargar las personas: ', error),
-      });
-
-    this.personaForm.get('pais')?.valueChanges.subscribe(value => {
-      this.estadosService.getAllEstadosByPais(value.id)
-        .subscribe({
-          next: (resp) => {
-            this.estados = resp
-          },
-          error: (error) => console.error('Error al cargar los estados por id: ' + error)
-        });
+  private cargarEstadosPorPais(paisId: number): void {
+    this.estadosService.getAllEstadosByPais(paisId).subscribe({
+      next: (resp) => (this.estados = resp),
+      error: (error) => console.error('Error al cargar estados:', error),
     });
-
   }
 
   guardar(): void {
@@ -83,7 +89,7 @@ export class PersonaComponent implements OnInit{
       .subscribe({
         next: (resp) => {
           this.personaForm.reset();
-          this.personas = this.personas.filter((persona: { id: any; }) => resp.id !== persona.id);
+          this.personas = this.personas.filter((persona: { id: number; }) => resp.id !== persona.id);
           this.personas.push(resp);
         },
         error: (error) => {
@@ -92,21 +98,20 @@ export class PersonaComponent implements OnInit{
       });
   }
 
-  eliminar(persona: any) {
-    this.personaService.deletePersona(persona.id)
-      .subscribe({
-        next: (resp) => {
-          if (resp === true) {
-            this.personas.pop(persona);
-          }
-        },
-        error: (error) => {
-          console.error('Error al eliminar persona: ', error);
+  eliminar(persona: Persona): void {
+    this.personaService.deletePersona(persona.id).subscribe({
+      next: (resp) => {
+        if (resp === true) {
+          this.personas = this.personas.filter(p => p.id !== persona.id);
         }
-      });
+      },
+      error: (error) => console.error('Error al eliminar persona:', error),
+    });
   }
 
-  editar(persona: any) {
+
+  editar(persona: Persona) {
+    this.cargarEstadosPorPais(persona.pais.id);
     this.personaForm.patchValue({
       id: persona.id,
       nombre: persona.nombre,
