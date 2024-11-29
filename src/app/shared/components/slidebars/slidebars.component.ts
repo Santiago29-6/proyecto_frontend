@@ -1,21 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'app-slidebars',
   standalone: true,
   imports: [
     CommonModule
   ],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
+  templateUrl: './slidebars.component.html',
+  styleUrl: './slidebars.component.css'
 })
-export class FooterComponent {
+export class SlidebarsComponent {
   constructor (
-    public authService: AuthenticationService,
-    public router: Router
+    authService : AuthenticationService,
+    router : Router
   ) { }
-
 }
