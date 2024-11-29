@@ -1,30 +1,31 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Persona } from '../../../shared/models/persona.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonaService {
 
-  private API_SERVER = "http://localhost:8080/personas/"
+  private readonly API_SERVER = "http://localhost:8080/personas/"
 
   constructor(
-    private httpClient : HttpClient
+    private readonly httpClient : HttpClient
   ) { }
 
-  public getAllPersona(): Observable<any>{
-    return this.httpClient.get(this.API_SERVER);
+  public getAllPersona(): Observable<Persona[]>{
+    return this.httpClient.get<Persona[]>(this.API_SERVER);
   }
 
-  public savePersona (persona:any) : Observable<any>{
-    const headers = this.createAuthHeaders();    
-    return this.httpClient.post(this.API_SERVER,persona, {headers});
-  }
-
-  public deletePersona(id:any) : Observable<any>{
+  public savePersona (persona:Persona) : Observable<Persona>{
     const headers = this.createAuthHeaders();
-    return this.httpClient.delete(this.API_SERVER + "delete/" + id ,{headers})
+    return this.httpClient.post<Persona>(this.API_SERVER,persona, {headers});
+  }
+
+  public deletePersona(id: number) : Observable<boolean>{
+    const headers = this.createAuthHeaders();
+    return this.httpClient.delete<boolean>(this.API_SERVER + "delete/" + id ,{headers})
   }
 
   private createAuthHeaders(): HttpHeaders {

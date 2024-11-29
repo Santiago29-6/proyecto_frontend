@@ -1,3 +1,4 @@
+import { Pais } from './../../../shared/models/pais.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -7,13 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class PaisesService {
 
-  private API_SERVER = "http://localhost:8080/pais/"
+  private readonly API_SERVER = "http://localhost:8080/pais/"
 
   constructor(
-    private httpClient : HttpClient
+    private readonly httpClient : HttpClient
   ) { }
 
-  public getAllPaises(): Observable<any>{
-    return this.httpClient.get(this.API_SERVER);
+  public getAllPaises(): Observable<Pais[]>{
+    return this.httpClient.get<Pais[]>(this.API_SERVER);
   }
 }
