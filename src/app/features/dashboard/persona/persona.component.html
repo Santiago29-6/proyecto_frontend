@@ -1,110 +1,93 @@
-<!-- Tabla de Personas -->
 <div class="container card">
-  <div class="row">
-
-    <div class="card-header">
-      <div class="row">
-        <div class="col-md-10">
-          <h5 class="card-title text-start">
-            Clientes
-          </h5>
-        </div>
-        <div class="col-md-2">
-          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#clientes">
-            <i class="bi bi-person-plus-fill"></i> Agregar cliente</button>
-        </div>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-9">
+        <h5 class="card-title text-start">Clientes</h5>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-success" (click)="abrirModal('crear')">
+          <i class="bi bi-person-plus-fill"></i> Agregar cliente
+        </button>
       </div>
     </div>
-    <div class="col-md-12 mt-2">
-      <div class="table-responsive">
-        <table class="table table-hover table-striped">
-          <thead class="table-dark text-center">
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Edad</th>
-              <th>País</th>
-              <th>Estado</th>
-              <th>Opciones</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            <tr *ngFor="let item of personas">
-              <td>{{ item.id }}</td>
-              <td>{{ item.nombre }}</td>
-              <td>{{ item.apellido }}</td>
-              <td>{{ item.edad }}</td>
-              <td>{{ item.pais.nombre }}</td>
-              <td>{{ item.estado.nombre }}</td>
-              <td>
-                <button type="button" class="btn btn-warning btn-sm me-2" (click)="editar(item)">Editar</button>
-                <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(item)">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  </div>
+
+  <div class="col-md-12 mt-2">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Edad</th>
+            <th>País</th>
+            <th>Estado</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let item of personas">
+            <td>{{ item.id }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.apellido }}</td>
+            <td>{{ item.edad }}</td>
+            <td>{{ item.pais.nombre }}</td>
+            <td>{{ item.estado.nombre }}</td>
+            <td>
+              <button type="button" class="btn btn-warning btn-sm me-2" (click)="editar(item)">Editar</button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(item)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
-<form [formGroup]="personaForm" (ngSubmit)="guardar()">
-  <div class="modal modal-lg fade" id="clientes" tabindex="-1" aria-labelledby="clientes" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Crear nuevo cliente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-3">
-            <!-- Nombre -->
-            <div class="col-md-6">
-              <label for="nombre" class="form-label">Nombre:</label>
-              <input type="text" id="nombre" formControlName="nombre" class="form-control"
-                placeholder="Ingresa el nombre">
-            </div>
-            <!-- Apellido -->
-            <div class="col-md-6">
-              <label for="apellido" class="form-label">Apellido:</label>
-              <input type="text" id="apellido" formControlName="apellido" class="form-control"
-                placeholder="Ingresa el apellido">
-            </div>
-            <!-- Edad -->
-            <div class="col-md-4">
-              <label for="edad" class="form-label">Edad:</label>
-              <input type="number" id="edad" formControlName="edad" class="form-control" placeholder="Ingresa la edad">
-            </div>
-            <!-- País -->
-            <div class="col-md-4">
-              <label for="pais" class="form-label">País:</label>
-              <select id="pais" formControlName="pais" class="form-select">
-                <option *ngFor="let item of paises" [ngValue]="item">{{ item.nombre }}</option>
-              </select>
-            </div>
-            <!-- Estado -->
-            <div class="col-md-4">
-              <label for="estado" class="form-label">Estado o Región:</label>
-              <select id="estado" formControlName="estado" class="form-select">
-                <option *ngFor="let item of estados" [ngValue]="item">{{ item.nombre }}</option>
-              </select>
-            </div>
+<ng-template #edit>
+  <form [formGroup]="personaForm" (ngSubmit)="isEditing ? editPerson() : guardar()">
+    <div class="modal-lg">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modalTitle }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input id="nombre" formControlName="nombre" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="apellido" class="form-label">Apellido:</label>
+            <input id="apellido" formControlName="apellido" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="edad" class="form-label">Edad:</label>
+            <input id="edad" formControlName="edad" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="pais" class="form-label">País:</label>
+            <select id="pais" formControlName="pais" class="form-select">
+              <option *ngFor="let item of paises" [ngValue]="item">{{ item.nombre }}</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="estado" class="form-label">Estado:</label>
+            <select id="estado" formControlName="estado" class="form-select">
+              <option *ngFor="let item of estados" [ngValue]="item">{{ item.nombre }}</option>
+            </select>
           </div>
         </div>
-        <div class="modal-footer flex-nowrap p-0">
-          <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
-            data-bs-dismiss="modal">
-            <i class="bi bi-x-lg"></i> Cerrar
-          </button>
-          <button type="submit"
-            class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"
-            [disabled]="personaForm.invalid">
-            <strong><i class="bi bi-person-plus-fill"></i> Guardar Cliente</strong>
-          </button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal" (click)="modalRef.hide()">
+          <i class="bi bi-x-lg"></i> Cerrar
+        </button>
+        <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" [disabled]="personaForm.invalid">
+          <i class="bi bi-floppy-fill"></i> {{ isEditing ? 'Guardar Cambios' : 'Crear Cliente' }}
+        </button>
       </div>
     </div>
-  </div>
-
-</form>
+  </form>
+</ng-template>
