@@ -14,7 +14,8 @@ export class PersonaService {
   ) { }
 
   public getAllPersona(): Observable<Persona[]>{
-    return this.httpClient.get<Persona[]>(environment.urlHost + "personas/");
+    const headers = this.createAuthHeaders();
+    return this.httpClient.get<Persona[]>(environment.urlHost + "personas/", {headers});
   }
 
   public savePersona (persona:Persona) : Observable<Persona>{
@@ -24,11 +25,11 @@ export class PersonaService {
 
   public deletePersona(id: number) : Observable<boolean>{
     const headers = this.createAuthHeaders();
-    return this.httpClient.delete<boolean>(environment.urlHost + "personas/"+ "delete/" + id ,{headers})
+    return this.httpClient.delete<boolean>(environment.urlHost + "personas/delete/" + id ,{headers})
   }
 
   private createAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken'); // Obtén el token del almacenamiento local
+    const token = localStorage.getItem('authToken');
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}` // Añade el token como encabezado Authorization
