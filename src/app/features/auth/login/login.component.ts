@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthRequest } from '../../../shared/models/authRequest.model';
 import { AuthResponse } from '../../../shared/models/authResponse.model';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
