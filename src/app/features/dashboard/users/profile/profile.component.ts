@@ -40,18 +40,12 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('authToken')) {
+
+    if (this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
     }
 
-    this.profileForm = this.fb.group({
-      id: [''],
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      role: ['', Validators.required]
-    });
+    this.initForm();
 
     this.profileForm.get('role')?.disable();
 
@@ -65,6 +59,17 @@ export class ProfileComponent implements OnInit {
           console.error('No se pudo cargar el usuario por: ', error);
         }
       });
+  }
+
+  initForm() : void {
+    this.profileForm = this.fb.group({
+      id: [''],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      role: ['', Validators.required]
+    });
   }
 
   changeRoleUser(): void {
@@ -94,7 +99,6 @@ export class ProfileComponent implements OnInit {
         .subscribe({
           next: (resp) => {
             alert('Perfil actualizado...');
-            console.log(resp);
           },
           error: (error) =>{
             console.error("No se pudo actualizar el usuario: ", error);

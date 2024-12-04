@@ -11,6 +11,7 @@ import { Estado } from '../../../shared/models/estado.model';
 import { Persona } from '../../../shared/models/persona.model';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-persona',
@@ -45,12 +46,13 @@ export class PersonaComponent implements OnInit {
     public paisesService: PaisesService,
     public personaService: PersonaService,
     public router: Router,
-    public modalService: BsModalService
+    public modalService: BsModalService,
+    public authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
 
-    if (!localStorage.getItem('authToken')) {
+    if (this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return;
     }
@@ -133,7 +135,7 @@ export class PersonaComponent implements OnInit {
           this.personaForm.reset();
           this.personas = this.personas.filter((persona: { id: number; }) => resp.id !== persona.id);
           this.personas.push(resp);
-          
+
           this.modalRef?.hide();
         },
         error: (error) => {
