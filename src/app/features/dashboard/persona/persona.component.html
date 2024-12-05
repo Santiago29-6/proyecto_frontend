@@ -35,8 +35,8 @@
             <td>{{ item.pais.nombre }}</td>
             <td>{{ item.estado.nombre }}</td>
             <td>
-              <button type="button" class="btn btn-warning btn-sm me-2" (click)="editar(item)">Editar</button>
-              <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(item)">Eliminar</button>
+              <button type="button" class="btn btn-warning rounded-circle me-2" (click)="editar(item)"><i class="bi bi-pencil-fill"></i></button>
+              <button type="button" class="btn btn-danger rounded-circle" (click)="eliminar(item)"><i class="bi bi-trash-fill"></i></button>
             </td>
           </tr>
         </tbody>

@@ -52,7 +52,7 @@ export class PersonaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this.authService.isAuthenticated()) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
       return;
     }

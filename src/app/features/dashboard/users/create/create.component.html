@@ -2,7 +2,7 @@
   <div class="card-header">
     <div class="row">
       <div class="col-md-9">
-        <h5 class="card-title text-start">Clientes</h5>
+        <h5 class="card-title text-start">Usuarios</h5>
       </div>
       <div class="col-md-3">
         <button class="btn btn-success" (click)="abrirModal('crear')">
@@ -21,6 +21,8 @@
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Username</th>
+            <th>Rol</th>
+            <th>Opciones</th>
           </tr>
         </thead>
         <tbody class="text-center">
@@ -29,9 +31,10 @@
             <td>{{ item.nombre }}</td>
             <td>{{ item.apellido }}</td>
             <td>{{ item.username }}</td>
+            <td>{{ item.role }}</td>
             <td>
-              <button type="button" class="btn btn-warning btn-sm me-2" (click)="editar(item)">Editar</button>
-              <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(item)">Eliminar</button>
+              <button type="button" class="btn btn-warning rounded-circle me-2" (click)="editar(item)"><i class="bi bi-pencil-fill"></i></button>
+              <button type="button" class="btn btn-danger rounded-circle" (click)="eliminar(item)"><i class="bi bi-trash-fill"></i></button>
             </td>
           </tr>
         </tbody>
@@ -49,17 +52,17 @@
       </div>
       <div class="modal-body">
         <div class="row g-3">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label for="nombre" class="form-label">Nombre:</label>
             <input id="nombre" formControlName="nombre" class="form-control">
           </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label for="apellido" class="form-label">Apellido:</label>
             <input id="apellido" formControlName="apellido" class="form-control">
           </div>
-          <div class="col-md-4">
-            <label for="edad" class="form-label">Edad:</label>
-            <input id="edad" formControlName="edad" class="form-control">
+          <div class="col-md-12">
+            <label for="username" class="form-label">Username:</label>
+            <input id="username" formControlName="username" class="form-control">
           </div>
         </div>
       </div>
@@ -68,7 +71,7 @@
           <i class="bi bi-x-lg"></i> Cerrar
         </button>
         <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" [disabled]="userForm.invalid">
-          <i class="bi bi-floppy-fill"></i> {{ isEditing ? 'Guardar Cambios' : 'Crear Cliente' }}
+          <i class="bi bi-floppy-fill"></i> {{ isEditing ? 'Guardar Cambios' : 'Crear Usuario' }}
         </button>
       </div>
     </div>
