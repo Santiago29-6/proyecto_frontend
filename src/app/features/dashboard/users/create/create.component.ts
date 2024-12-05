@@ -27,7 +27,7 @@ import { forkJoin } from 'rxjs';
 })
 export class CreateComponent implements OnInit{
 
-  @ViewChild('template') template!: TemplateRef<any>;
+  @ViewChild('edit') template!: TemplateRef<any>;
   modalRef !: BsModalRef;
 
   userForm !: FormGroup;
@@ -44,7 +44,7 @@ export class CreateComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    if(this.authService.isAuthenticated()){
+    if(!this.authService.isAuthenticated()){
       this.router.navigate(['/login']);
     }
     this.initForm();
@@ -57,7 +57,7 @@ export class CreateComponent implements OnInit{
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required, Validators.min(6)],
+      password: ['', [Validators.required, Validators.min(6)]],
       role: ['', Validators.required]
     });
   }
