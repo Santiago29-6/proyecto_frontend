@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Persona } from '../../../shared/models/persona.model';
@@ -12,7 +12,7 @@ export class PersonaService {
 
   constructor(
     private readonly httpClient : HttpClient,
-    private authService : AuthService
+    private readonly authService : AuthService
   ) { }
 
   public getAllPersona(): Observable<Persona[]>{
