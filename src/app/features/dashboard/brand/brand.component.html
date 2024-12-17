@@ -1,1 +1,64 @@
-<p>brand works!</p>
+<div class="container card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-9">
+        <h5 class="card-title text-start">Marcas</h5>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-success" (click)="openModal('create')">
+          <i class="bi bi-person-plus-fill"></i> Agregar Marca
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mt-2">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let item of brand">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>
+              <button type="button" class="btn btn-warning rounded-circle me-2" (click)="edit(item)"><i class="bi bi-pencil-fill"></i></button>
+              <button type="button" class="btn btn-danger rounded-circle" (click)="deleteBrand(item)"><i class="bi bi-trash-fill"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #edit_brand>
+  <form [formGroup]="brandForm" (ngSubmit)="isEditing ? editBrand() : saveBrand()">
+    <div class="modal-lg">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ modalTitle }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modalRef.hide()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input id="nombre" formControlName="nombre" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal" (click)="modalRef.hide()">
+          <i class="bi bi-x-lg"></i> Cerrar
+        </button>
+        <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" [disabled]="brandForm.invalid">
+          <i class="bi bi-floppy-fill"></i> {{ isEditing ? 'Guardar Cambios' : 'Crear Marca' }}
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-template>
