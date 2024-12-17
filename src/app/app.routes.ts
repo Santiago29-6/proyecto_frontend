@@ -6,6 +6,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { ProfileComponent } from './features/dashboard/users/profile/profile.component';
 import { SignupComponent } from './features/auth/signup/signup.component';
 import { CreateComponent } from './features/dashboard/users/create/create.component';
+import { BrandComponent } from './features/dashboard/brand/brand.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,7 +14,8 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignupComponent },
   { path: 'personas', component: PersonaComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'users', component: CreateComponent, canActivate: [AuthGuard] }
+  { path: 'users', component: CreateComponent, canActivate: [AuthGuard] },
+  { path: 'brand', component: BrandComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
