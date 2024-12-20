@@ -116,7 +116,7 @@ export class BrandComponent implements OnInit{
           this.modalRef?.hide();
         },
         error: (error) => {
-          console.error('No se puedo editar la marca: ', error);          
+          console.error('No se pudo editar la marca: ', error);          
         }
       });
   }
