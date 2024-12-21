@@ -20,9 +20,9 @@ export class ProductService {
     return this.httpClient.get<Product[]>(environment.urlHost + "product", {headers: headers});
   }
 
-  public saveProduct(product: Product) : Observable<Product> {
+  public saveProduct(data: FormData) : Observable<Product> {
     const headers = this.authService.createAuthHeaders();
-    return this.httpClient.post<Product>(environment.urlHost + "producto/save", product, {headers: headers});
+    return this.httpClient.post<Product>(environment.urlHost + "producto/save", data, {headers: headers});
   }
 
   public deleteProduct(id_product: number) : Observable<boolean> {
