@@ -8,6 +8,7 @@ import { SignupComponent } from './features/auth/signup/signup.component';
 import { CreateComponent } from './features/dashboard/users/create/create.component';
 import { BrandComponent } from './features/dashboard/brand/brand.component';
 import { CategoryComponent } from './features/dashboard/category/category.component';
+import { ProductComponent } from './features/dashboard/product/product.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -17,7 +18,8 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'users', component: CreateComponent, canActivate: [AuthGuard] },
   { path: 'brand', component: BrandComponent, canActivate: [AuthGuard] },
-  { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] }
+  { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
+  { path: 'product', component: ProductComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
